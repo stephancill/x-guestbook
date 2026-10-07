@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "x-webview-probe",
+  "main": "worker/webview.ts",
+  "compatibility_date": "2026-10-06",
+  "workers_dev": false,
+  "preview_urls": false,
+  "triggers": { "crons": ["0 * * * *"] },
+  "routes": [
+    { "pattern": "x-webview.stupidtech.net", "custom_domain": true },
+    { "pattern": "x-webview-hop.stupidtech.net", "custom_domain": true },
+  ],
+  "vars": {
+    "APP_ORIGIN": "https://x-webview.stupidtech.net",
+    "HOP_ORIGIN": "https://x-webview-hop.stupidtech.net",
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "x-webview-probe",
+      "database_id": "ee1e9469-aedd-484a-8dca-007a8198524a",
+      "migrations_dir": "migrations-webview",
+    },
+  ],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+  },
+}

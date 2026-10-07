@@ -1,0 +1,32 @@
+.probe {
+  padding: 12px;
+}
+.probe h2 {
+  margin: 12px 0 6px;
+}
+.probe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.probe-actions a {
+  display: inline-block;
+  padding: 6px 8px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #eee;
+  font-size: 0.85rem;
+}
+.probe pre {
+  max-height: 280px;
+  overflow: auto;
+  padding: 8px;
+  background: #f4f4f4;
+  font-size: 11px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.probe code {
+  overflow-wrap: anywhere;
+}

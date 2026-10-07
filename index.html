@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tweet Guestbook</title>
+    <meta
+      name="description"
+      content="Sign the guestbook with your X account, right inside the timeline."
+    />
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:title" content="Tweet Guestbook — I was here" />
+    <meta
+      name="twitter:description"
+      content="Sign in with X, leave a message, and see who else was here."
+    />
+    <meta name="twitter:image" content="__ORIGIN__/card.png" />
+    <meta name="twitter:player" content="__ORIGIN__/play/__ROOM__" />
+    <meta name="twitter:player:width" content="480" />
+    <meta name="twitter:player:height" content="480" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tweet Guestbook — I was here" />
+    <meta
+      property="og:description"
+      content="Sign in with X, leave a message, and see who else was here."
+    />
+    <meta property="og:image" content="__ORIGIN__/card.png" />
+    <meta property="og:url" content="__ORIGIN__/" />
+    <link rel="canonical" href="https://guestbook.stupidtech.net/" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+  </head>
+  <body class="guestbook">
+    <main>
+      <h1>Guestbook</h1>
+      <section aria-label="Recent signatures" class="recent">
+        <div class="book-heading">
+          <h2>Recent signatures</h2>
+          <p id="entry-count" class="muted">Loading signatures…</p>
+        </div>
+        <ul id="entries"></ul>
+      </section>
+      <section aria-label="Sign the guestbook" class="sign-in">
+        <a id="signin" class="button" target="_blank" rel="noopener noreferrer" aria-disabled="true"
+          >Preparing sign-in…</a
+        >
+        <div id="signin-progress" class="actions" hidden>
+          <a id="resume-signin" target="_blank" rel="noopener noreferrer" hidden
+            >Continue sign-in</a
+          >
+          <button id="check-signin" type="button">Check sign-in</button>
+          <button id="cancel-signin" type="button">Cancel sign-in</button>
+        </div>
+        <button id="retry-signin" type="button" hidden>Retry sign-in</button>
+        <div id="signed-in" hidden>
+          <p id="who"></p>
+          <div id="signature-controls">
+            <label for="message">Leave a message <span class="muted">(optional)</span></label>
+            <textarea id="message" maxlength="280" rows="2" placeholder="I was here 👋"></textarea>
+            <div class="actions">
+              <button id="sign" type="button">Sign the book</button>
+              <button id="logout" type="button">Sign out</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <p id="status" role="status" class="muted"></p>
+      <nav aria-label="Miniapp links">
+        <button id="copy-link" type="button">Copy share link</button>
+        <a id="post" target="_blank" rel="noopener noreferrer">Post on X</a>
+        <a id="how-it-works" href="/about" target="_blank" rel="noopener noreferrer"
+          >How it works</a
+        >
+      </nav>
+    </main>
+    <script id="app-config" type="application/json">
+      null
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

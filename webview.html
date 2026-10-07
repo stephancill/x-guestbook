@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>X webview probe</title>
+    <meta
+      name="description"
+      content="Inspect X mobile viewer navigation and popup return behavior."
+    />
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:title" content="X webview probe" />
+    <meta
+      name="twitter:description"
+      content="Test viewer context and sign-in popup return behavior."
+    />
+    <meta name="twitter:image" content="__ORIGIN__/webview-card.png" />
+    <meta name="twitter:player" content="__ORIGIN__/play" />
+    <meta name="twitter:player:width" content="480" />
+    <meta name="twitter:player:height" content="480" />
+    <meta property="og:title" content="X webview probe" />
+    <meta property="og:image" content="__ORIGIN__/webview-card.png" />
+    <meta property="og:url" content="__ORIGIN__/" />
+    <link rel="icon" href="/favicon.png" />
+  </head>
+  <body>
+    <main class="probe">
+      <h1 id="title">X webview probe</h1>
+      <p class="muted">
+        Mock sign-in; no X account authorization needed. Context and test events are saved for 24
+        hours.
+      </p>
+      <p>Run: <code id="run">Starting…</code></p>
+      <p id="probe-status" role="status"></p>
+      <section id="viewer" hidden>
+        <h2>Open a sign-in popup</h2>
+        <div class="probe-actions">
+          <a id="manual" target="_blank" rel="noopener noreferrer"
+            >1. Match guestbook (manual close)</a
+          >
+          <a id="auto-close" target="_blank" rel="noopener noreferrer"
+            >2. Auto-close after completion</a
+          >
+          <a id="with-opener" target="_blank" rel="opener">3. Preserve opener</a>
+          <a id="same-view">4. Sign in within this viewer</a>
+          <a id="auto-return" target="_blank" rel="noopener noreferrer"
+            >5. Return in popup automatically</a
+          >
+        </div>
+        <p class="muted">
+          After completing a test, note whether X dismissed the popup, showed the original viewer,
+          or required its native back button.
+        </p>
+        <button id="snapshot" type="button">Capture context</button>
+      </section>
+      <section id="popup" hidden>
+        <h2>Mock sign-in</h2>
+        <p>Continue to a callback page, then test returning to the viewer.</p>
+        <div class="probe-actions">
+          <a id="finish">Complete sign-in</a>
+          <a id="cross-origin">Complete through a second origin</a>
+        </div>
+      </section>
+      <section id="complete" hidden>
+        <h2>Mock sign-in complete</h2>
+        <p id="completion-note">
+          The original viewer can detect this completion through server polling.
+        </p>
+        <div class="probe-actions">
+          <button id="close-window" type="button">Try window.close()</button>
+          <button id="go-back" type="button">Try history.back()</button>
+          <a id="return-viewer">Return to viewer in this window</a>
+          <button id="notify-opener" type="button">Notify opener</button>
+        </div>
+      </section>
+      <h2>Report</h2>
+      <div class="probe-actions">
+        <button id="refresh-report" type="button">Refresh report</button>
+        <button id="copy-report" type="button">Copy report</button>
+      </div>
+      <pre id="report">Collecting context…</pre>
+    </main>
+    <script id="probe-config" type="application/json">
+      null
+    </script>
+    <script type="module" src="/src/webview.ts"></script>
+  </body>
+</html>

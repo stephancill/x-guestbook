@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>How it works — Tweet Guestbook</title>
+    <meta
+      name="description"
+      content="How an ordinary web page becomes an interactive X guestbook, with verified sign-in and shared signatures."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="How Tweet Guestbook works" />
+    <meta name="twitter:description" content="Player Cards, X sign-in, and a shared guestbook." />
+    <meta name="twitter:image" content="https://guestbook.stupidtech.net/card.png" />
+    <meta property="og:title" content="How Tweet Guestbook works" />
+    <meta property="og:description" content="Player Cards, X sign-in, and a shared guestbook." />
+    <meta property="og:image" content="https://guestbook.stupidtech.net/card.png" />
+    <meta property="og:url" content="https://guestbook.stupidtech.net/about" />
+    <link rel="canonical" href="https://guestbook.stupidtech.net/about" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main class="explanation">
+      <p><a href="/">← Guestbook</a></p>
+      <h1>How it works</h1>
+      <p>
+        This is an ordinary web app that you can open from an X post. Sign in with your X account,
+        leave an optional message, and add your name to a shared guestbook.
+      </p>
+
+      <h2>The trick: an X Player Card</h2>
+      <p>
+        When you share <a href="/">guestbook.stupidtech.net</a>, X reads metadata in the page’s
+        HTML. The metadata describes a preview image and a 480 × 480 player page:
+      </p>
+      <pre><code>&lt;meta name="twitter:card" content="player" /&gt;
+&lt;meta name="twitter:image"
+      content="https://guestbook.stupidtech.net/card.png" /&gt;
+&lt;meta name="twitter:player"
+      content="https://guestbook.stupidtech.net/play/poc-1" /&gt;
+&lt;meta name="twitter:player:width" content="480" /&gt;
+&lt;meta name="twitter:player:height" content="480" /&gt;</code></pre>
+      <p>
+        Player Cards normally contain audio or video. Here, the player page contains the guestbook
+        instead. The metadata is served by the backend, so X can discover it without running
+        JavaScript.
+      </p>
+
+      <h2>Why it looks different on mobile</h2>
+      <p>
+        On x.com, the player can run in an iframe inside the post. The native X app opens it in a
+        fullscreen web viewer. In the native app, you may need to open the post’s detail view before
+        its Player Card preview appears.
+      </p>
+      <p>
+        X controls this presentation. The same guestbook also works as a normal page when you open
+        its link directly.
+      </p>
+
+      <h2>Signing in with X</h2>
+      <p>
+        Being inside an X post does not tell this app who you are. To verify your identity, the
+        guestbook uses X’s OAuth 2.0 authorization flow with PKCE. You authorize through X, and the
+        backend retrieves your account ID, username, display name, and profile image.
+      </p>
+      <p>
+        The requested scopes are <code>tweet.read</code> and <code>users.read</code>, which X
+        requires for the profile lookup. The app uses the access token on the backend to retrieve
+        your profile; it does not send that token to the guestbook page or use it as your guestbook
+        session.
+      </p>
+      <p>
+        Inside an iframe, sign-in opens in a separate tab and the card checks the backend for
+        completion. In a fullscreen viewer or a normal browser page, sign-in happens in the same
+        view and automatically returns you to the original book.
+      </p>
+      <p>
+        The launch link is prepared before you tap. Pending sign-in credentials are saved in session
+        storage so the app can resume after navigation. Each attempt expires after ten minutes, and
+        the launch and polling credentials are separate.
+      </p>
+
+      <h2>What a signature contains</h2>
+      <p>
+        Signatures are public. Each entry contains the verified profile, an optional message of up
+        to 280 characters, and the signing time. There is one signature per X account per book;
+        signing again updates your entry rather than adding a duplicate.
+      </p>
+      <p>
+        You can read recent signatures before signing in. The list refreshes periodically and shows
+        relative timestamps.
+      </p>
+
+      <h2>Remembering your sign-in</h2>
+      <p>
+        After authorization, the backend issues a separate guestbook session that lasts up to 30
+        days. The browser stores its session token locally, and the backend stores a hash of that
+        token. Sign out revokes the session; your public signature remains in the book.
+      </p>
+      <p>
+        Standalone sign-in needs writable session storage to restore the pending attempt after
+        returning from X. If that storage is unavailable, the page explains the problem before
+        starting navigation.
+      </p>
+
+      <h2>Under the hood</h2>
+      <p>
+        The frontend uses vanilla TypeScript and Vite. A Hono app runs on Cloudflare Workers, with
+        Cloudflare D1 storing signatures, sign-in attempts, and sessions. The backend validates
+        requests and accepts signatures only from verified sessions.
+      </p>
+      <p>
+        Iframe context, referrers, and incoming messages are not treated as proof of identity.
+        Authentication comes from the completed OAuth flow.
+      </p>
+      <p><a href="/">Open the guestbook</a></p>
+    </main>
+  </body>
+</html>

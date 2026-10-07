@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign in to Tweet Guestbook</title>
+    <link rel="icon" href="/favicon.png" />
+  </head>
+  <body>
+    <main>
+      <h1>Tweet Guestbook</h1>
+      <p id="auth-message" role="status">Preparing sign-in…</p>
+      <p id="auth-hint">Your guestbook card will update automatically after sign-in.</p>
+      <a id="return-guestbook" hidden>Return to guestbook</a>
+      <button id="close" type="button">Close this tab</button>
+    </main>
+    <script type="module" src="/src/auth.ts"></script>
+  </body>
+</html>
